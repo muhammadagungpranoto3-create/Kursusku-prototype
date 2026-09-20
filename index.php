@@ -1,138 +1,185 @@
 <?php
-// ==========================
-// BASIC ENV DETECTION
-// ==========================
-$isLocal = in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'], true);
+require_once __DIR__ . '/helpers.php';
 
-// ==========================
-// QUERY HANDLING (SAFE)
-// ==========================
-if (isset($_GET['q'])) {
-    $query = $_GET['q'];
+$siteName = 'KursusKu UIN';
+$tagline = 'Belajar, daftar, dan kelola kursus dalam satu tempat.';
+$year = date('Y');
 
-    // Allow-list approach
-    if ($query === 'info') {
-
-        // phpinfo allowed ONLY on localhost
-        if ($isLocal) {
-            phpinfo();
-            exit;
-        }
-
-        http_response_code(403);
-        exit('Forbidden! phpinfo allowed ONLY on localhost');
-    }
-
-    // Unknown query
-    http_response_code(404);
-    exit('Invalid query parameter.');
-}
+$courses = [
+    [
+        'code'       => 'WEB-01',
+        'name'       => 'Web Dasar',
+        'fee'        => 200000,
+        'quota'      => 30,
+        'registered' => 12,
+        'start_date' => '2026-09-21',
+    ],
+    [
+        'code'       => 'PHP-01',
+        'name'       => 'PHP Dasar',
+        'fee'        => 250000,
+        'quota'      => 30,
+        'registered' => 18,
+        'start_date' => '2026-09-22',
+    ],
+    [
+        'code'       => 'PHP-02',
+        'name'       => 'PHP Lanjutan',
+        'fee'        => 300000,
+        'quota'      => 25,
+        'registered' => 24,
+        'start_date' => '2026-09-24',
+    ],
+    [
+        'code'       => 'LAR-01',
+        'name'       => 'Laravel Fundamental',
+        'fee'        => 350000,
+        'quota'      => 25,
+        'registered' => 25,
+        'start_date' => '2026-09-28',
+    ],
+    [
+        'code'       => 'DB-01',
+        'name'       => 'MySQL Dasar',
+        'fee'        => 275000,
+        'quota'      => 20,
+        'registered' => 0,
+        'start_date' => '2026-10-01',
+    ],
+    [
+        'code'       => 'UI-01',
+        'name'       => 'UI Web Dasar',
+        'fee'        => 225000,
+        'quota'      => 35,
+        'registered' => 9,
+        'start_date' => '2026-10-03',
+    ],
+];
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laragon</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Karla:400" rel="stylesheet">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= htmlspecialchars($siteName) ?></title>
+   
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Karla', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            text-align: center;
-        }
-
-        .content {
-            max-width: 800px;
-            padding: 100px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .title {
-            font-size: 60px;
-            margin: 0;
-        }
-
-        .info {
-            margin-top: 20px;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .info a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .info a:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
-
-        .opt {
-            margin-top: 30px;
-        }
-
-        .opt a {
-            font-size: 18px;
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .opt a:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #fafafa; color: #333; }
+        header, main, footer { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #0f766e; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .badge-available { background: #e7f8ef; color: #146c43; padding: 4px 8px; border-radius: 12px; font-weight: bold; }
+        .badge-full { background: #fdeaea; color: #a61b1b; padding: 4px 8px; border-radius: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="content">
-        <h1 class="title">Laragon</h1>
+<header>
+    <nav aria-label="Navigasi utama">
+        <a href="index.php"><strong><?= htmlspecialchars($siteName) ?></strong></a>
+        <a href="#keunggulan">Keunggulan</a>
+        <a href="#katalog">Katalog</a>
+        <a href="#alur">Cara Daftar</a>
+        <a href="#kontak">Kontak</a>
+    </nav>
+</header>
 
-        <div class="info">
-            <?php if ($isLocal): ?>
-                <p><?= htmlspecialchars($_SERVER['SERVER_SOFTWARE'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p>
-                    PHP version: <?= htmlspecialchars(PHP_VERSION, ENT_QUOTES, 'UTF-8'); ?>
-                    <a title="phpinfo()" href="/?q=info">info</a>
-                </p>
-                <p>
-                    Document Root:
-                    <?= htmlspecialchars($_SERVER['DOCUMENT_ROOT'], ENT_QUOTES, 'UTF-8'); ?>
-                </p>
-            <?php else: ?>
-                <p>Server is running</p>
-                <p>PHP is enabled</p>
-            <?php endif; ?>
-        </div>
+<main>
+    <section id="hero">
+        <h1><?= htmlspecialchars($tagline) ?></h1>
+        <p>Temukan kursus teknologi yang relevan untuk meningkatkan keterampilan Anda.</p>
+        <p><a href="fee-calculator.php">Lihat Estimasi Biaya Kursus</a></p>
+    </section>
 
-        <div class="opt">
-            <p>
-                <a href="https://laragon.org/docs" target="_blank" rel="noopener">
-                    Getting Started
-                </a>
-            </p>
-        </div>
-    </div>
-</div>
+    <section id="keunggulan">
+        <h2>Mengapa Memilih KursusKu?</h2>
+        <article>
+            <h3>Materi Terarah</h3>
+            <p>Materi disusun bertahap dari dasar hingga praktik.</p>
+        </article>
+        <article>
+            <h3>Belajar dengan Proyek</h3>
+            <p>Setiap tahap menghasilkan bagian nyata dari aplikasi.</p>
+        </article>
+        <article>
+            <h3>Pendampingan Praktik</h3>
+            <p>Mahasiswa belajar melalui demonstrasi, latihan, dan evaluasi.</p>
+        </article>
+    </section>
+
+    <section id="katalog">
+        <h2>Katalog Kursus</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Kode</th>
+                    <th>Nama Kursus</th>
+                    <th>Biaya</th>
+                    <th>Mulai</th>
+                    <th>Sisa Kursi</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($courses as $course): ?>
+                <?php
+                    $status = statusKursus($course['quota'], $course['registered']);
+                    $statusClass = ($status === 'Penuh') ? 'badge-full' : 'badge-available';
+                ?>
+                <tr>
+                    <td><?= htmlspecialchars($course['code']) ?></td>
+                    <td><?= htmlspecialchars(trim($course['name'])) ?></td>
+                    <td><?= rupiah($course['fee']) ?></td>
+                    <td><?= formatTanggal($course['start_date']) ?></td>
+                    <td><?= sisaKursi($course['quota'], $course['registered']) ?></td>
+                    <td><span class="<?= $statusClass ?>"><?= $status ?></span></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="alur">
+        <h2>Cara Mendaftar</h2>
+        <ol>
+            <li>Pilih kursus yang diminati.</li>
+            <li>Isi form pendaftaran.</li>
+            <li>Kirim pendaftaran dan tunggu konfirmasi.</li>
+        </ol>
+    </section>
+
+   <section id="media">
+    <h2>Kenali Program Kami</h2>
+    <img
+      src="assets/images/hero-kursus.jpg"
+      alt="Mahasiswa sedang mengikuti kegiatan kursus komputer"
+      width="640">
+
+    <h3>Video Singkat</h3>
+    <video controls width="640">
+      <source src="assets/video/intro-kursus.mp4" type="video/mp4">
+      Browser Anda tidak mendukung video HTML5.
+    </video>
+
+    <p>
+      Pelajari juga
+      <a href="https://www.php.net/" target="_blank" rel="noopener">dokumentasi PHP</a>.
+    </p>
+  </section>
+
+  <section id="kontak">
+    <h2>Kontak</h2>
+    <p>Email: muhammadagungpranoto3@gmail.com</p>
+    <p>Alamat: aia kaciak</p>
+  </section>
+
+</main>
+
+<footer>
+  <small>&copy; <?= $year ?> <?= htmlspecialchars($siteName) ?></small>
+</footer>
 
 </body>
 </html>
