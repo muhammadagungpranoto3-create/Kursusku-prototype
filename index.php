@@ -56,131 +56,263 @@ $courses = [
     ],
 ];
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-    <link rel="stylesheet" href="assets/css/style.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= htmlspecialchars($siteName) ?></title>
-   
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #fafafa; color: #333; }
-        header, main, footer { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        nav a { margin-right: 15px; text-decoration: none; color: #0f766e; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .badge-available { background: #e7f8ef; color: #146c43; padding: 4px 8px; border-radius: 12px; font-weight: bold; }
-        .badge-full { background: #fdeaea; color: #a61b1b; padding: 4px 8px; border-radius: 12px; font-weight: bold; }
-    </style>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<header>
-    <nav aria-label="Navigasi utama">
-        <a href="index.php"><strong><?= htmlspecialchars($siteName) ?></strong></a>
-        <a href="#keunggulan">Keunggulan</a>
-        <a href="#katalog">Katalog</a>
-        <a href="#alur">Cara Daftar</a>
-        <a href="#kontak">Kontak</a>
-    </nav>
-</header>
+    <!-- Navigasi / Header -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.php" class="logo">
+                <span class="logo-accent">Kursus</span>Ku <span class="logo-badge">UIN</span>
+            </a>
+            <nav class="nav-menu" aria-label="Navigasi utama">
+                <a href="index.php" class="active">Home</a>
+                <a href="#keunggulan">Keunggulan</a>
+                <a href="#katalog">Katalog</a>
+                <a href="#alur">Cara Daftar</a>
+                <a href="#media">Media</a>
+                <a href="#kontak">Kontak</a>
+                <a href="fee-calculator.php" class="btn-calculator"><i class="fa-solid fa-calculator"></i> Hitung Biaya</a>
+            </nav>
+        </div>
+    </header>
 
-<main>
-    <section id="hero">
-        <h1><?= htmlspecialchars($tagline) ?></h1>
-        <p>Temukan kursus teknologi yang relevan untuk meningkatkan keterampilan Anda.</p>
-        <p><a href="fee-calculator.php">Lihat Estimasi Biaya Kursus</a></p>
-    </section>
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="container hero-content">
+                <h1><?= htmlspecialchars($tagline) ?></h1>
+                <p class="hero-sub">Temukan kursus teknologi yang relevan untuk meningkatkan keterampilan Anda secara terarah dan terukur.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#katalog" class="hero-card-btn orange-btn">
+                        <div class="btn-icon"><i class="fa-solid fa-book-open"></i></div>
+                        <div class="btn-text">
+                            <strong>Lihat Katalog Kursus</strong>
+                            <span>Jelajahi semua materi</span>
+                        </div>
+                    </a>
+                    <a href="fee-calculator.php" class="hero-card-btn teal-btn">
+                        <div class="btn-icon"><i class="fa-solid fa-calculator"></i></div>
+                        <div class="btn-text">
+                            <strong>Lihat Estimasi Biaya Kursus</strong>
+                            <span>Hitung investasi belajar</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
 
-    <section id="keunggulan">
-        <h2>Mengapa Memilih KursusKu?</h2>
-        <article>
-            <h3>Materi Terarah</h3>
-            <p>Materi disusun bertahap dari dasar hingga praktik.</p>
-        </article>
-        <article>
-            <h3>Belajar dengan Proyek</h3>
-            <p>Setiap tahap menghasilkan bagian nyata dari aplikasi.</p>
-        </article>
-        <article>
-            <h3>Pendampingan Praktik</h3>
-            <p>Mahasiswa belajar melalui demonstrasi, latihan, dan evaluasi.</p>
-        </article>
-    </section>
+        <!-- Section Keunggulan -->
+        <section id="keunggulan" class="section-features">
+            <div class="container">
+                <h2 class="section-title">Mengapa Memilih KursusKu?</h2>
+                
+                <div class="features-grid">
+                    <article class="feature-card card-orange">
+                        <div class="card-badge">1</div>
+                        <div class="card-icon">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <h3>Materi Terarah</h3>
+                        <p>Materi disusun bertahap dari dasar hingga praktik berbasis industri.</p>
+                    </article>
 
-    <section id="katalog">
-        <h2>Katalog Kursus</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Kode</th>
-                    <th>Nama Kursus</th>
-                    <th>Biaya</th>
-                    <th>Mulai</th>
-                    <th>Sisa Kursi</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($courses as $course): ?>
-                <?php
-                    $status = statusKursus($course['quota'], $course['registered']);
-                    $statusClass = ($status === 'Penuh') ? 'badge-full' : 'badge-available';
-                ?>
-                <tr>
-                    <td><?= htmlspecialchars($course['code']) ?></td>
-                    <td><?= htmlspecialchars(trim($course['name'])) ?></td>
-                    <td><?= rupiah($course['fee']) ?></td>
-                    <td><?= formatTanggal($course['start_date']) ?></td>
-                    <td><?= sisaKursi($course['quota'], $course['registered']) ?></td>
-                    <td><span class="<?= $statusClass ?>"><?= $status ?></span></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </section>
+                    <article class="feature-card card-blue">
+                        <div class="card-badge">2</div>
+                        <div class="card-icon">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3>Belajar dengan Proyek</h3>
+                        <p>Setiap tahap menghasilkan bagian nyata dari aplikasi portofolio Anda.</p>
+                    </article>
 
-    <section id="alur">
-        <h2>Cara Mendaftar</h2>
-        <ol>
-            <li>Pilih kursus yang diminati.</li>
-            <li>Isi form pendaftaran.</li>
-            <li>Kirim pendaftaran dan tunggu konfirmasi.</li>
-        </ol>
-    </section>
+                    <article class="feature-card card-green">
+                        <div class="card-badge">3</div>
+                        <div class="card-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <h3>Pendampingan Praktik</h3>
+                        <p>Mahasiswa belajar melalui demonstrasi, latihan, dan evaluasi mentor.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-   <section id="media">
-    <h2>Kenali Program Kami</h2>
-    <img
-      src="assets/images/hero-kursus.jpg"
-      alt="Mahasiswa sedang mengikuti kegiatan kursus komputer"
-      width="640">
+        <!-- Section Katalog Kursus -->
+        <section id="katalog" class="section-courses">
+            <div class="container">
+                <h2 class="section-title">Katalog Kursus</h2>
+                
+                <div class="table-card">
+                    <div class="table-responsive">
+                       <!-- Bagian Tabel di index.php -->
+<table>
+    <thead>
+        <tr>
+            <th>Kode</th>
+            <th>Nama Kursus</th>
+            <th>Biaya</th>
+            <th>Mulai</th>
+            <th>Sisa Kursi</th>
+            <th>Status</th>
+            <th>Aksi</th> <!-- 1. Tambahkan Header Kolom Aksi -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($courses as $course): ?>
+        <?php
+            $status = statusKursus($course['quota'], $course['registered']);
+            $statusClass = ($status === 'Penuh') ? 'badge-full' : 'badge-available';
+        ?>
+        <tr>
+            <td><span class="code-badge"><?= htmlspecialchars($course['code']) ?></span></td>
+            <td><strong><?= htmlspecialchars(trim($course['name'])) ?></strong></td>
+            <td class="fee-text"><?= rupiah($course['fee']) ?></td>
+            <td><?= formatTanggal($course['start_date']) ?></td>
+            <td><?= sisaKursi($course['quota'], $course['registered']) ?> Kursi</td>
+            <td><span class="<?= $statusClass ?>"><?= $status ?></span></td>
+            <td>
+                <!-- 2. Tambahkan Link / Tombol ke registration.php -->
+                <?php if ($status === 'Penuh'): ?>
+                    <button class="btn-action disabled" disabled>Penuh</button>
+                <?php else: ?>
+                    <a href="registration.php" class="btn-action">Daftar</a>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <h3>Video Singkat</h3>
-    <video controls width="640">
-      <source src="assets/video/intro-kursus.mp4" type="video/mp4">
-      Browser Anda tidak mendukung video HTML5.
-    </video>
+        <!-- Section Cara Mendaftar -->
+       <section id="alur" class="section-steps">
+    <div class="container">
+        <h2 class="section-title">Cara Mendaftar</h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Pilih Kursus</h3>
+                <p>Pilih kursus yang diminati dari katalog yang tersedia.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Isi Form Pendaftaran</h3>
+                <p>Lengkapi form pendaftaran dan hitung estimasi biaya.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Konfirmasi</h3>
+                <p>Kirim pendaftaran dan tunggu konfirmasi dari tim admin.</p>
+            </div>
+        </div>
+        
+        <!-- Tambahkan Tombol Buka Form Pendaftaran -->
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="registration.php" class="btn-calculator" style="display: inline-block; padding: 12px 28px; font-size: 14px;">
+                <i class="fa-solid fa-pen-to-square"></i> Buka Form Pendaftaran
+            </a>
+        </div>
+    </div>
+</section>
 
-    <p>
-      Pelajari juga
-      <a href="https://www.php.net/" target="_blank" rel="noopener">dokumentasi PHP</a>.
-    </p>
-  </section>
+        <!-- Section Media Program -->
+        <section id="media" class="section-media">
+            <div class="container">
+                <h2 class="section-title">Kenali Program Kami</h2>
+                
+                <div class="media-grid">
+                    <div class="media-box">
+                        <img src="assets/images/hero-kursus.jpeg" alt="Mahasiswa sedang mengikuti kegiatan kursus komputer" class="media-img">
+                    </div>
+                    <div class="media-box">
+                        <h3>Video Singkat</h3>
+                        <div class="video-wrapper">
+                            <video controls>
+                                <source src="assets/video/intro-kursus.mp4" type="video/mp4">
+                                Browser Anda tidak mendukung video HTML5.
+                            </video>
+                        </div>
+                        <p class="media-doc-link">
+                            Pelajari juga <a href="https://www.php.net/" target="_blank" rel="noopener"><i class="fa-brands fa-php"></i> Dokumentasi PHP</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <section id="kontak">
-    <h2>Kontak</h2>
-    <p>Email: muhammadagungpranoto3@gmail.com</p>
-    <p>Alamat: aia kaciak</p>
-  </section>
+        <!-- Section Kontak -->
+        <section id="kontak" class="section-contact">
+            <div class="container">
+                <div class="contact-card">
+                    <h2>Hubungi Kami</h2>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <div>
+                                <strong>Email</strong>
+                                <p>muhammadagungpranoto3@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div>
+                                <strong>Alamat</strong>
+                                <p>Aia Kaciak</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-</main>
-
-<footer>
-  <small>&copy; <?= $year ?> <?= htmlspecialchars($siteName) ?></small>
-</footer>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="index.php" class="logo">
+                    <span class="logo-accent">Kursus</span>Ku UIN
+                </a>
+                <p>&copy; <?= $year ?> <?= htmlspecialchars($siteName) ?>. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.php">Home</a>
+                <a href="#keunggulan">Keunggulan</a>
+                <a href="#katalog">Katalog</a>
+                <a href="#alur">Cara Daftar</a>
+                <a href="fee-calculator.php">Kalkulator</a>
+            </div>
+            <div class="footer-socials">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                 <a href="https://instagram.com/agunng_02" target="_blank" rel="noopener">
+        <i class="fa-brands fa-instagram"></i>
+    </a>
+    <a href="https://github.com/muhammadagungpranoto3-create" target="_blank" rel="noopener">
+        <i class="fa-brands fa-github"></i>
+    </a>
+</div>
+        </div>
+    </footer>
 
 </body>
 </html>
