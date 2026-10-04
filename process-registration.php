@@ -1,4 +1,5 @@
 <?php
+session_start(); // Wajib ditaruh di paling atas
 require_once __DIR__ . '/helpers.php';
 
 $siteName = 'KursusKu UIN';
@@ -33,6 +34,23 @@ $course_names = [
     'ui-web-dasar'        => 'UI Web Dasar',
 ];
 $course_display = $course_names[$course_raw] ?? ucwords(str_replace('-', ' ', $course_raw));
+// Inisialisasi array session history jika belum ada
+if (!isset($_SESSION['history'])) {
+    $_SESSION['history'] = [
+        ['name' => 'Alya', 'course' => 'Web Dasar', 'total' => 240000],
+        ['name' => 'Bima', 'course' => 'PHP Dasar', 'total' => 340000],
+        ['name' => 'Citra', 'course' => 'Laravel Dasar', 'total' => 500000],
+    ];
+}
+
+// Simpan pendaftaran baru dari form ke dalam session
+if (!empty($fullname)) {
+    $_SESSION['history'][] = [
+        'name'   => $fullname,
+        'course' => $course_display,
+        'total'  => 250000
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">

@@ -1,7 +1,13 @@
 <?php
+
 function rupiah(int $amount): string
 {
     return 'Rp ' . number_format($amount, 0, ',', '.');
+}
+
+function e($value): string
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
 function statusKursus(int $quota, int $registered): string
