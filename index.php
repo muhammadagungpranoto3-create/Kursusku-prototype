@@ -88,10 +88,10 @@ $courses = [
     <a href="#media">Media</a>
     <a href="#kontak">Kontak</a>
     <!-- Tambah 2 menu baru di bawah ini -->
-    <a href="history.php">History Dummy</a>
-    <a href="loop-lab.php">Loop Lab</a>
-    <a href="fee-calculator.php" class="btn-calculator"><i class="fa-solid fa-calculator"></i> Hitung Biaya</a>
-</nav>
+<a href="history.php">History Dummy</a>
+<a href="loop-lab.php">Loop Lab</a>
+<a href="test-matrix.php">Test Matrix</a>
+<a href="fee-calculator.php" class="btn-calculator"><i class="fa-solid fa-calculator"></i> Hitung Biaya</a>
         </div>
     </header>
 

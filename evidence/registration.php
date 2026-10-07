@@ -26,10 +26,10 @@
   </section>
 
   <section class="form-card">
-    <form action="process-registration.php" method="POST" class="registration-form">
+    <form action="process-registration.php" method="GET" class="registration-form">
 
       <!-- Hidden field: dikirim tapi tidak terlihat pengguna -->
-      <input type="hidden" name="source" value="week-05">
+      <input type="hidden" name="source" value="week-06">
 
       <div class="form-grid">
         <div class="form-group">

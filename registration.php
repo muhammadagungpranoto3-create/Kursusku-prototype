@@ -51,6 +51,7 @@ $selectedCourse = $_GET['course'] ?? '';
 
                 <form action="process-registration.php" method="POST" class="registration-form">
                     
+                    <!-- Row 1: Nama Lengkap & Email -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fullname">Nama Lengkap <span class="required">*</span></label>
@@ -69,6 +70,7 @@ $selectedCourse = $_GET['course'] ?? '';
                         </div>
                     </div>
 
+                    <!-- Row 2: Nomor HP & Program Studi -->
                     <div class="form-row">
                         <div class="form-group">
                             <label for="phone">Nomor HP <span class="required">*</span></label>
@@ -87,23 +89,24 @@ $selectedCourse = $_GET['course'] ?? '';
                         </div>
                     </div>
 
+                    <!-- Kursus yang Dipilih -->
                     <div class="form-group">
                         <label for="course">Kursus yang Dipilih <span class="required">*</span></label>
                         <div class="input-icon-wrapper">
                             <i class="fa-solid fa-book-open input-icon"></i>
                             <select id="course" name="course" required>
                                 <option value="">-- Pilih kursus --</option>
-                                <option value="web-dasar" <?= ($selectedCourse === 'web-dasar' || $selectedCourse === 'WEB-01') ? 'selected' : '' ?>>Web Dasar</option>
-                                <option value="php-dasar" <?= ($selectedCourse === 'php-dasar' || $selectedCourse === 'PHP-01') ? 'selected' : '' ?>>PHP Dasar</option>
-                                <option value="php-lanjutan" <?= ($selectedCourse === 'php-lanjutan' || $selectedCourse === 'PHP-02') ? 'selected' : '' ?>>PHP Lanjutan</option>
-                                <option value="laravel-fundamental" <?= ($selectedCourse === 'laravel-fundamental' || $selectedCourse === 'LAR-01') ? 'selected' : '' ?>>Laravel Fundamental</option>
-                                <option value="mysql-dasar" <?= ($selectedCourse === 'mysql-dasar' || $selectedCourse === 'DB-01') ? 'selected' : '' ?>>MySQL Dasar</option>
-                                <option value="ui-web-dasar" <?= ($selectedCourse === 'ui-web-dasar' || $selectedCourse === 'UI-01') ? 'selected' : '' ?>>UI Web Dasar</option>
+                                <option value="web-dasar" <?= ($selectedCourse === 'web-dasar' || $selectedCourse === 'WEB-01') ? 'selected' : '' ?>>Web Dasar - Rp 200.000</option>
+                                <option value="php-dasar" <?= ($selectedCourse === 'php-dasar' || $selectedCourse === 'PHP-01') ? 'selected' : '' ?>>PHP Dasar - Rp 250.000</option>
+                                <option value="php-lanjutan" <?= ($selectedCourse === 'php-lanjutan' || $selectedCourse === 'PHP-02') ? 'selected' : '' ?>>PHP Lanjutan - Rp 350.000</option>
+                                <option value="laravel-fundamental" <?= ($selectedCourse === 'laravel-fundamental' || $selectedCourse === 'LAR-01') ? 'selected' : '' ?>>Laravel Fundamental - Rp 400.000</option>
+                                <option value="mysql-dasar" <?= ($selectedCourse === 'mysql-dasar' || $selectedCourse === 'DB-01') ? 'selected' : '' ?>>MySQL Dasar - Rp 200.000</option>
+                                <option value="ui-web-dasar" <?= ($selectedCourse === 'ui-web-dasar' || $selectedCourse === 'UI-01') ? 'selected' : '' ?>>UI Web Dasar - Rp 250.000</option>
                             </select>
                         </div>
                     </div>
 
-                    <!-- Pilihan Jenis Peserta -->
+                    <!-- Jenis Peserta -->
                     <div class="form-group-box">
                         <label class="group-title">Jenis Peserta <span class="required">*</span></label>
                         <div class="radio-checkbox-group">
@@ -111,28 +114,42 @@ $selectedCourse = $_GET['course'] ?? '';
                                 <input type="radio" name="participant_type" value="mahasiswa" required>
                                 <span class="option-card">
                                     <i class="fa-solid fa-user-graduate"></i>
-                                    <span>Mahasiswa</span>
+                                    <span>Mahasiswa (Diskon 20%)</span>
+                                </span>
+                            </label>
+                            <label class="custom-option">
+                                <input type="radio" name="participant_type" value="guru">
+                                <span class="option-card">
+                                    <i class="fa-solid fa-chalkboard-user"></i>
+                                    <span>Guru (Diskon 15%)</span>
                                 </span>
                             </label>
                             <label class="custom-option">
                                 <input type="radio" name="participant_type" value="umum">
                                 <span class="option-card">
                                     <i class="fa-solid fa-briefcase"></i>
-                                    <span>Umum</span>
+                                    <span>Umum (Diskon 0%)</span>
                                 </span>
                             </label>
                         </div>
                     </div>
 
-                    <!-- Pilihan Minat Tambahan -->
+                    <!-- Minat Tambahan -->
                     <div class="form-group-box">
                         <label class="group-title">Minat Tambahan</label>
                         <div class="radio-checkbox-group">
                             <label class="custom-option">
-                                <input type="checkbox" name="interests[]" value="uiux">
+                                <input type="checkbox" name="interests[]" value="frontend">
                                 <span class="option-card">
-                                    <i class="fa-solid fa-palette"></i>
-                                    <span>UI/UX</span>
+                                    <i class="fa-solid fa-code"></i>
+                                    <span>Frontend</span>
+                                </span>
+                            </label>
+                            <label class="custom-option">
+                                <input type="checkbox" name="interests[]" value="backend">
+                                <span class="option-card">
+                                    <i class="fa-solid fa-server"></i>
+                                    <span>Backend</span>
                                 </span>
                             </label>
                             <label class="custom-option">
@@ -143,24 +160,49 @@ $selectedCourse = $_GET['course'] ?? '';
                                 </span>
                             </label>
                             <label class="custom-option">
-                                <input type="checkbox" name="interests[]" value="backend">
+                                <input type="checkbox" name="interests[]" value="uiux">
                                 <span class="option-card">
-                                    <i class="fa-solid fa-server"></i>
-                                    <span>Backend</span>
+                                    <i class="fa-solid fa-palette"></i>
+                                    <span>UI/UX</span>
                                 </span>
                             </label>
                         </div>
                     </div>
 
+                    <!-- Row: Metode Belajar & Jumlah Paket -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="learning_method">Metode Belajar <span class="required">*</span></label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-gear input-icon"></i>
+                                <select id="learning_method" name="learning_method" required>
+                                    <option value="online">Online</option>
+                                    <option value="offline">Offline</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="package_qty">Jumlah Paket <span class="required">*</span></label>
+                            <div class="input-icon-wrapper">
+                                <i class="fa-solid fa-user-gear input-icon"></i>
+                                <select id="package_qty" name="package_qty" required>
+                                    <option value="1">1 Paket</option>
+                                    <option value="2">2 Paket</option>
+                                    <option value="3">3 Paket</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Catatan -->
                     <div class="form-group">
                         <label for="note">Catatan</label>
                         <textarea id="note" name="note" rows="3" maxlength="300" placeholder="Tuliskan kebutuhan belajar Anda (opsional)"></textarea>
-                        <span class="field-hint">Maksimal 300 karakter</span>
                     </div>
 
-                    <button type="submit" class="btn-submit-registration">
-                        <i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran
-                    </button>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit-registration">Daftar Sekarang</button>
 
                 </form>
             </div>

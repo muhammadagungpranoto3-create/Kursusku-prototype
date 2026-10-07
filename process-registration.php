@@ -5,25 +5,26 @@ require_once __DIR__ . '/helpers.php';
 $siteName = 'KursusKu UIN';
 $year = date('Y');
 
-// Mengambil data dari form POST secara aman
-$fullname         = htmlspecialchars($_POST['fullname'] ?? $_POST['nama'] ?? '-');
-$email            = htmlspecialchars($_POST['email'] ?? '-');
-$phone            = htmlspecialchars($_POST['phone'] ?? $_POST['hp'] ?? '-');
-$study_program    = htmlspecialchars($_POST['study_program'] ?? '-');
-$course_raw       = htmlspecialchars($_POST['course'] ?? $_POST['course_code'] ?? '-');
-$participant_type = htmlspecialchars($_POST['participant_type'] ?? '-');
+// Mengambil data dari form GET secara aman
+$fullname         = htmlspecialchars($_GET['fullname'] ?? $_GET['name'] ?? $_GET['nama'] ?? '-');
+$email            = htmlspecialchars($_GET['email'] ?? '-');
+$phone            = htmlspecialchars($_GET['phone'] ?? $_GET['hp'] ?? '-');
+$study_program    = htmlspecialchars($_GET['study_program'] ?? '-');
+$course_raw       = htmlspecialchars($_GET['course'] ?? $_GET['course_code'] ?? '-');
+$participant_type = htmlspecialchars($_GET['participant_type'] ?? '-');
+$learning_method  = htmlspecialchars($_GET['learning_mode'] ?? $_GET['learning_method'] ?? 'online');
+$package_qty      = (int)($_GET['package_count'] ?? $_GET['package_qty'] ?? 1);
 
 // Memproses minat (array)
-$interests_raw    = $_POST['interests'] ?? [];
+$interests_raw = $_GET['interests'] ?? [];
 if (is_array($interests_raw)) {
     $interests = !empty($interests_raw) ? implode(', ', array_map('ucwords', $interests_raw)) : 'Tidak ada';
 } else {
     $interests = !empty($interests_raw) ? htmlspecialchars($interests_raw) : 'Tidak ada';
 }
 
-$note   = htmlspecialchars($_POST['note'] ?? $_POST['catatan'] ?? '-');
-$source = htmlspecialchars($_POST['source'] ?? $_POST['sumber'] ?? 'Formulir Website');
-
+$note   = htmlspecialchars($_GET['note'] ?? $_GET['catatan'] ?? '-');
+$source = htmlspecialchars($_GET['source'] ?? $_GET['sumber'] ?? 'Formulir Website');
 // Format nama kursus agar lebih rapi
 $course_names = [
     'web-dasar'           => 'Web Dasar',
@@ -34,21 +35,45 @@ $course_names = [
     'ui-web-dasar'        => 'UI Web Dasar',
 ];
 $course_display = $course_names[$course_raw] ?? ucwords(str_replace('-', ' ', $course_raw));
+
+// Daftar Harga & Diskon untuk perhitungan otomatis
+$course_prices = [
+    'web-dasar'           => 200000,
+    'php-dasar'           => 250000,
+    'php-lanjutan'        => 350000,
+    'laravel-fundamental' => 400000,
+    'mysql-dasar'         => 200000,
+    'ui-web-dasar'        => 250000,
+];
+
+$discounts = [
+    'mahasiswa' => 0.20,
+    'guru'      => 0.15,
+    'umum'      => 0.00
+];
+
+// Hitung total biaya dinamis
+$base_price    = $course_prices[$course_raw] ?? 200000;
+$discount_rate = $discounts[strtolower($participant_type)] ?? 0;
+$subtotal      = $base_price * $package_qty;
+$total_price   = $subtotal - ($subtotal * $discount_rate);
+
 // Inisialisasi array session history jika belum ada
 if (!isset($_SESSION['history'])) {
     $_SESSION['history'] = [
-        ['name' => 'Alya', 'course' => 'Web Dasar', 'total' => 240000],
-        ['name' => 'Bima', 'course' => 'PHP Dasar', 'total' => 340000],
-        ['name' => 'Citra', 'course' => 'Laravel Dasar', 'total' => 500000],
+        ['name' => 'Alya',  'fullname' => 'Alya',  'course' => 'Web Dasar',     'total' => 240000],
+        ['name' => 'Bima',  'fullname' => 'Bima',  'course' => 'PHP Dasar',     'total' => 340000],
+        ['name' => 'Citra', 'fullname' => 'Citra', 'course' => 'Laravel Dasar', 'total' => 500000],
     ];
 }
 
 // Simpan pendaftaran baru dari form ke dalam session
-if (!empty($fullname)) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($fullname) && $fullname !== '-') {
     $_SESSION['history'][] = [
-        'name'   => $fullname,
-        'course' => $course_display,
-        'total'  => 250000
+        'name'     => $fullname,
+        'fullname' => $fullname,
+        'course'   => $course_display,
+        'total'    => $total_price
     ];
 }
 ?>
@@ -80,6 +105,7 @@ if (!empty($fullname)) {
                 <a href="index.php">Home</a>
                 <a href="index.php#katalog">Katalog</a>
                 <a href="registration.php">Daftar</a>
+                <a href="history.php">History Dummy</a>
                 <a href="fee-calculator.php" class="btn-calculator"><i class="fa-solid fa-calculator"></i> Hitung Biaya</a>
             </nav>
         </div>
@@ -131,8 +157,23 @@ if (!empty($fullname)) {
                     </div>
 
                     <div class="summary-item">
+                        <div class="summary-label"><i class="fa-solid fa-laptop"></i> Metode Belajar</div>
+                        <div class="summary-value"><?= ucfirst($learning_method) ?></div>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="summary-label"><i class="fa-solid fa-cubes"></i> Jumlah Paket</div>
+                        <div class="summary-value"><?= $package_qty ?> Paket</div>
+                    </div>
+
+                    <div class="summary-item">
                         <div class="summary-label"><i class="fa-solid fa-layer-group"></i> Minat Tambahan</div>
                         <div class="summary-value"><?= $interests ?></div>
+                    </div>
+
+                    <div class="summary-item">
+                        <div class="summary-label"><i class="fa-solid fa-receipt"></i> Total Biaya</div>
+                        <div class="summary-value"><strong>Rp <?= number_format($total_price, 0, ',', '.') ?></strong></div>
                     </div>
 
                     <div class="summary-item">
@@ -143,10 +184,10 @@ if (!empty($fullname)) {
 
                 <!-- Navigasi Tombol Aksi -->
                 <div class="success-actions">
-                    <a href="index.php" class="btn-action-outline">
-                        <i class="fa-solid fa-house"></i> Kembali ke Beranda
+                    <a href="history.php" class="btn-action-fill">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Lihat Riwayat
                     </a>
-                    <a href="registration.php" class="btn-action-fill">
+                    <a href="registration.php" class="btn-action-outline">
                         <i class="fa-solid fa-pen-to-square"></i> Isi Form Lagi
                     </a>
                 </div>
